@@ -1,8 +1,10 @@
+#!/usr/bin/python3
+
 import re
 import os
 
-# Set failure treshold for ban
-ban_treshold = 10
+# Set failure threshold for ban
+ban_threshold = 10
 
 # Log search function
 def log_search(log_file, regex, cut_start, cut_stop, cut_start_offset = 1):
@@ -35,9 +37,9 @@ if os.system("iptables -F INPUT") == 0:
 else:
     print("failed!")
 
-# Ban IPs with auth failures over given treshold
+# Ban IPs with auth failures over given threshold
 for ip, fail_count in sorted(badips.items()):
-    if fail_count >= ban_treshold:
+    if fail_count >= ban_threshold:
         print("IP {} failed auth {} times. Blocking... ".format(ip, fail_count), end='')
         if os.system("iptables -A INPUT -s {}/32 -j DROP".format(ip)) == 0:
             print("OK!")
